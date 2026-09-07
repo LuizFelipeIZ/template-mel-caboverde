@@ -1,6 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const MapaOrigem = dynamic(() => import("../src/components/MapaOrigem"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[440px] w-full bg-[#140D06] rounded-2xl flex items-center justify-center border border-[#E8A93B]/20 text-[#E8A93B] text-xs tracking-widest uppercase animate-pulse">
+      Carregando mapa de apiários...
+    </div>
+  ),
+});
 
 const PRODUCERS = [
   {
@@ -30,28 +40,16 @@ const HONEYS = [
   { name: "Cipó-uva", level: 95, color: "#5C3512", light: "#8A5A1E", desc: "Escuro e encorpado, com notas amadeiradas." },
 ];
 
-const MAP_PINS = [
-  { x: 92, y: 78, color: "#E8A93B", label: "Silvestre" },
-  { x: 182, y: 128, color: "#7A9A63", label: "Eucalipto" },
-  { x: 262, y: 92, color: "#C9832B", label: "Laranjeira" },
-  { x: 142, y: 218, color: "#8A5A1E", label: "Cipó-uva" },
-  { x: 300, y: 228, color: "#7A9A63", label: "Eucalipto" },
-  { x: 222, y: 268, color: "#E8A93B", label: "Silvestre" },
-];
-
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
   const [particles, setParticles] = useState<{ id: number; left: string; delay: string; duration: string; size: string }[]>([]);
 
-  // Efeitos Client-Side: Cursor de Abelha e Pólen
   useEffect(() => {
-    // Mouse Tracker para a Abelha
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Gerador de Partículas de Pólen
     const newParticles = Array.from({ length: 25 }).map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}vw`,
@@ -71,11 +69,9 @@ export default function Home() {
         
         .font-display { font-family: 'Newsreader', serif; }
         
-        /* Cursor escondido na página toda para dar lugar à abelha */
         body { cursor: none; }
         a, button { cursor: none !important; }
 
-        /* Animação do Pólen Flutuante */
         @keyframes pollenFloat {
           0% { transform: translateY(110vh) translateX(0px) rotate(0deg); opacity: 0; }
           10% { opacity: 0.6; }
@@ -92,7 +88,6 @@ export default function Home() {
           box-shadow: 0 0 8px rgba(232, 169, 59, 0.8);
         }
 
-        /* Gotas de Mel (Hero) */
         @keyframes dripFall {
           0%   { transform: translateY(0) scaleY(1); opacity: 1; }
           70%  { transform: translateY(120px) scaleY(1.3); opacity: 1; }
@@ -101,7 +96,6 @@ export default function Home() {
         }
         .drip { animation: dripFall 3s ease-in infinite; transform-origin: top center; }
 
-        /* Efeito de Vidro (Catálogo) */
         .vial {
           position: relative;
           width: 52px;
@@ -175,9 +169,8 @@ export default function Home() {
         </div>
       </header>
 
-      {/* HERO SECTION - Essência do Mel */}
+      {/* HERO SECTION */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#1B120A] to-[#2A1B0E]">
-        {/* Textura de fundo suave */}
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1587049352851-8d4e8e10bdfb?q=80&w=2070&auto=format&fit=crop')" }}
@@ -206,7 +199,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Ilustração SVG de Gotas de Mel pingando */}
           <div className="relative hidden md:block h-[400px]">
             <svg viewBox="0 0 260 380" className="w-full h-full drop-shadow-2xl">
               <polygon points="90,20 150,55 150,110 90,145 30,110 30,55" fill="none" stroke="#E8A93B" strokeWidth="2" opacity="0.3" />
@@ -217,7 +209,6 @@ export default function Home() {
                 <stop offset="50%" stopColor="#E8A93B" />
                 <stop offset="100%" stopColor="#C9720B" />
               </linearGradient>
-              {/* Forma da gota gigante pingando do favo */}
               <path d="M90 130 Q90 160 90 175 Q90 195 108 195 Q126 195 126 175 Q126 158 108 130 Z" fill="url(#honeyGrad)" />
             </svg>
             <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "192px" }}>
@@ -249,8 +240,6 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1B120A]/90 via-[#1B120A]/30 to-transparent"></div>
-                
-                {/* Badge Dourada com Número */}
                 <div 
                   className="absolute -bottom-4 left-6 w-10 h-10 flex items-center justify-center text-[15px] font-display font-bold text-[#1B120A] shadow-md z-10"
                   style={{ background: "#E8A93B", clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
@@ -297,22 +286,8 @@ export default function Home() {
             </div>
           </div>
           
-          {/* O Mapa SVG que você gostou da primeira versão */}
-          <div className="rounded-2xl overflow-hidden border border-[#E8A93B]/20 bg-[#140D06] shadow-[0_0_40px_rgba(232,169,59,0.1)] p-4 relative">
-            <svg viewBox="0 0 380 320" className="w-full h-full">
-              <path d="M0 55 C 60 85, 100 35, 160 65 S 260 95, 380 55" stroke="#3A2A16" strokeWidth="2" fill="none" />
-              <path d="M0 135 C 70 105, 130 155, 200 125 S 300 85, 380 135" stroke="#3A2A16" strokeWidth="2" fill="none" />
-              <path d="M0 210 C 60 240, 120 190, 190 220 S 290 250, 380 210" stroke="#3A2A16" strokeWidth="2" fill="none" />
-              <path d="M0 280 C 70 250, 140 300, 210 270 S 310 240, 380 280" stroke="#3A2A16" strokeWidth="2" fill="none" />
-              {MAP_PINS.map((pin, i) => (
-                <g key={i} className="hover:opacity-80 transition-opacity">
-                  <circle cx={pin.x} cy={pin.y} r={16} fill={pin.color} opacity={0.2} />
-                  <circle cx={pin.x} cy={pin.y} r={7} fill={pin.color} />
-                  <circle cx={pin.x} cy={pin.y} r={7} fill="none" stroke="#1B120A" strokeWidth="1.5" />
-                </g>
-              ))}
-            </svg>
-          </div>
+          <MapaOrigem />
+          
         </div>
       </section>
 
