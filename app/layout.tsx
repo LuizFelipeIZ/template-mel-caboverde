@@ -17,7 +17,7 @@ export const metadata = {
   description: "Mel puro e rastreável direto do Sul de Minas Gerais. Conheça nossos produtores e a origem do nosso mel.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
