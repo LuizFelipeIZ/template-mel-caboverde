@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Fundo de favo de mel (Hexágono externo) -->
+  <polygon points="256,24 456,140 456,372 256,488 56,372 56,140" fill="#FBBF24" />
+  
+  <!-- Fundo de favo de mel (Hexágono interno) -->
+  <polygon points="256,64 422,160 422,352 256,448 90,352 90,160" fill="#F59E0B" />
+  
+  <!-- Asas da abelha -->
+  <path d="M226,200 C130,140 100,240 220,270 Z" fill="#FEF3C7" opacity="0.9" />
+  <path d="M286,200 C382,140 412,240 292,270 Z" fill="#FEF3C7" opacity="0.9" />
+  
+  <!-- Corpo da abelha -->
+  <rect x="216" y="190" width="80" height="130" rx="40" fill="#27272A" />
+  
+  <!-- Listras amarelas do corpo -->
+  <rect x="216" y="230" width="80" height="20" fill="#FBBF24" />
+  <rect x="216" y="270" width="80" height="20" fill="#FBBF24" />
+  
+  <!-- Cabeça da abelha -->
+  <circle cx="256" cy="170" r="35" fill="#27272A" />
+  
+  <!-- Antenas -->
+  <path d="M240,140 Q220,100 200,110" stroke="#27272A" stroke-width="10" stroke-linecap="round" fill="none" />
+  <path d="M272,140 Q292,100 312,110" stroke="#27272A" stroke-width="10" stroke-linecap="round" fill="none" />
+  
+  <!-- Ferrão -->
+  <polygon points="246,315 266,315 256,345" fill="#27272A" />
+</svg>
